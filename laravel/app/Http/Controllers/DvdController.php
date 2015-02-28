@@ -31,4 +31,45 @@ class DvdController extends Controller
 
 		]);
 	}
+
+	public function review(Request $request){
+		// Must place a search term
+		// dd($request);
+		// Query the DB
+		$dvdID = $request->segment(2);
+		$path = $request->path();
+
+		$dvdQuery = new DvdQuery();
+		$dvd = $dvdQuery->getDVD($dvdID);
+		// dd($dvd);
+		// Return the view and results
+
+		if($request->all()){
+			$validator = $dvdQuery->validate($request->all());
+
+			if ($validator->passes()) {
+				// DB::table('songs')->insert($input);
+				$dvdQuery->create([
+					'rating' => $request->input('rating'),
+					'title' => $request->input('title'),
+					'dvd_id' => $request->input('dvd_id'),
+					'description' => $request->input('description')
+				]);
+				$reviews = $dvdQuery->getReviews($request->input('dvd_id'));
+	
+				return redirect($path)->with([
+					'reviews'=>$reviews,
+					'success' => 'Review successfully added.'
+				]);
+			}
+
+			return redirect($path)->withErrors($validator)->withInput();
+		}
+		else{
+			return view('review', [
+				'dvds' => $dvd,
+				'id' => $dvdID
+			]);
+		}
+	}
 }

@@ -7,7 +7,7 @@
 
 	<h1>DVD Search</h1>	
 	<div class="search">
-		<form action="/dvds" method="get">
+		<form action="/dvds/results" method="get">
 			<div>DVD:</div>
 			<input	type="text" name="dvd_title">
 			<div>Genre:</div>
