@@ -10,6 +10,7 @@ use \App\Models\Orm\Genre;
 use \App\Models\Orm\Rating;
 use \App\Models\Orm\Sound; 
 
+use \App\Services\RottenTomatoes;
 
 use Illuminate\Http\Request;
 
@@ -40,16 +41,14 @@ class DvdController extends Controller
 	}
 
 	public function review(Request $request){
-		// Must place a search term
-		// dd($request);
-		// Query the DB
+
 		$dvdID = $request->segment(2);
 		$path = $request->path();
 
 		$dvdQuery = new DvdQuery();
 		$dvd = $dvdQuery->getDVD($dvdID);
-		// dd($dvd);
-		// Return the view and results
+
+		$rottenTomatoes = RottenTomatoes::search($dvd[0]->title);
 
 		if($request->all()){
 			$validator = $dvdQuery->validate($request->all());
@@ -73,9 +72,13 @@ class DvdController extends Controller
 			return redirect($path)->withErrors($validator)->withInput();
 		}
 		else{
+
+			//var_dump($rottenTomatoes);
+
 			return view('review', [
 				'dvds' => $dvd,
-				'id' => $dvdID
+				'id' => $dvdID, 
+				'rottenTomatoes' => $rottenTomatoes
 			]);
 		}
 	}

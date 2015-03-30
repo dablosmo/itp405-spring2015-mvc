@@ -34,6 +34,7 @@
 			<th>Rating</th>
 			<th>Genre</th>
 			<th>Label</th>
+			<th>Review</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -43,6 +44,11 @@
 				<td>{{ $dvd->rating->rating_name }}</td>
 				<td>{{ $dvd->genre->genre_name }}</td>
 				<td>{{ $dvd->label->label_name }}</td>
+				<td>
+					<form method="get" action="/dvds/<?php echo $dvd->id?>">
+						<input type="submit" value="Review">
+					</form>
+				</td>
 			</tr>
 	@endforeach
 	</tbody>

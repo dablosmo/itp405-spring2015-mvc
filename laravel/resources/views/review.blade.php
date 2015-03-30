@@ -18,6 +18,45 @@
 	<h1> DVD Review </h1>
 
 	<div>
+
+	@if ($rottenTomatoes) 
+	<div>
+		<img src="{{$rottenTomatoes['poster']}}">
+	</div>
+
+	<table class="table table-striped"> 
+		<thead> 
+			<th>Critic Score</th> 
+			<th>Audience Score</th>
+			<th>Runtime</th>
+			<th>Cast</th>
+		</thead>
+		<tbody> 
+			<tr> 
+				<td>{{$rottenTomatoes['critic_score']}}</td>
+				<td>{{$rottenTomatoes['audience_score']}}</td>
+				<td>{{$rottenTomatoes['runtime']}}</td>
+				<td>{{$rottenTomatoes['abridged_cast']}}</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+
+	@else 
+	<table class="table table-striped"> 
+		<thead> 
+			<th>Error</th> 
+		</thead>
+		<tbody> 
+			<tr> 
+				<td>Movie does not exist in Rotten Tomatoes Database.</td>
+			</tr>
+		</tbody>
+	</table>
+
+	@endif
+
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -96,6 +135,8 @@
 	</div>
 	
 	@endif
+
+	
 
 </body> 
 </html>
